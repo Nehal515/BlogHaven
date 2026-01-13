@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="register-page">
+
+    <header class="register-header">
+        <h1 class="brand">
+            Blog<span>haven</span>
+        </h1>
+        <p class="subtitle">
+            Create an account to start writing.
+        </p>
+    </header>
+
+    <section class="register-form">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="field">
+                <label>Username</label>
+                {{ form.username }}
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                {{ form.password1 }}
+            </div>
+
+            <div class="field">
+                <label>Confirm Password</label>
+                {{ form.password2 }}
+            </div>
+
+            <button type="submit" class="register-btn">
+                Create account
+            </button>
+        </form>
+
+        <p class="login-text">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+    </section>
+
+</main>
+
+{% endblock %}

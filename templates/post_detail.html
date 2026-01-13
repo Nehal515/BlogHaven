@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | BlogHaven{% endblock %}
+
+{% block content %}
+<main class="reader-container">
+
+    <!-- Head -->
+    <header class="article-header">
+        <div class="article-meta-top">
+            {% for genre in post.genres.all %}
+                <span class="genre-pill">{{ genre.name }}</span>
+            {% endfor %}
+            <span class="article-date">{{ post.created_at|date:"F j, Y" }}</span>
+        </div>
+
+        <h1 class="article-title">{{ post.title }}</h1>
+
+        <p class="article-author">
+            By <strong>{{ post.author.username }}</strong>
+        </p>
+    </header>
+
+    <!--Content -->
+    <article class="article-body">
+        {{ post.content|linebreaks }}
+    </article>
+
+    <!-- Likes -->
+    <div class="article-actions">
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'like_post' post.slug %}">
+            {% csrf_token %}
+            <button type="submit" class="like-button">
+                {% if user in post.likes.all %}♥{% else %}♡{% endif %}
+                <span>{{ post.likes.count }}</span>
+            </button>
+        </form>
+        {% else %}
+            <span class="like-button disabled">
+                ♡ {{ post.likes.count }}
+            </span>
+        {% endif %}
+    </div>
+
+    <!-- Comments -->
+    <section class="comments-section">
+        <h2 class="section-title">Discussion</h2>
+
+        
+        <div class="comments-list">
+            {% for comment in comments %}
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <strong>{{ comment.author }}</strong>
+                        <span>{{ comment.created_at|date:"M j, Y" }}</span>
+                    </div>
+                    <p>{{ comment.text }}</p>
+                </div>
+            {% empty %}
+                <p class="muted">No comments yet.</p>
+            {% endfor %}
+        </div>
+
+
+        {% if user.is_authenticated %}
+        <form method="post" class="comment-form">
+            {% csrf_token %}
+            {{ form.text }}
+            <button type="submit" class="primary-btn">Post comment</button>
+        </form>
+        {% else %}
+            <p class="muted">
+                <a href="{% url 'login' %}">Sign in</a> to join the discussion.
+            </p>
+        {% endif %}
+
+    </section>
+
+</main>
+{% endblock %}

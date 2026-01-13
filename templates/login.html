@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="login-page">
+
+    <header class="login-header">
+        <h1 class="brand">
+            Blog<span>haven</span>
+        </h1>
+        <p class="subtitle">
+            Welcome back. Sign in to continue writing.
+        </p>
+    </header>
+
+    <section class="login-form">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="field">
+                <label>Email</label>
+                {{ form.username }}
+            </div>
+
+            <div class="field">
+                <label>Password</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="login-btn">
+                Login
+            </button>
+        </form>
+
+        <p class="register-text">
+            No account?
+            <a href="{% url 'register' %}">Register</a>
+        </p>
+    </section>
+
+</main>
+
+{% endblock %}

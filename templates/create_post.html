@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+
+<main class="write-page">
+
+    <header class="write-header">
+        <h1>Write a new post</h1>
+        <p>
+            Share your thoughts clearly and honestly.
+        </p>
+    </header>
+
+    <section class="write-form">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="field">
+                <label>Title</label>
+                {{ form.title }}
+            </div>
+
+            <div class="field">
+                <label>Content</label>
+                {{ form.content }}
+            </div>
+
+            <div class="field">
+                <label>Genres</label>
+                {{ form.genres }}
+            </div>
+
+            <button type="submit" class="publish-btn">
+                Publish
+            </button>
+        </form>
+    </section>
+
+</main>
+
+{% endblock %}
